@@ -2,7 +2,8 @@
 maps.py - adjacency definitions for CSP map coloring.
 
 AUSTRALIA and USA defined as symmetric dicts (region/state -> list of neighbors).
-AK and HI included as isolated nodes, same as Tasmania in AUSTRALIA.
+Tasmania, Alaska, and Hawaii are modeled as isolated nodes 
+because they have no land-border neighbors in this representation.
 
 usage:
     from maps import AUSTRALIA, USA, validate_adjacency
@@ -14,12 +15,12 @@ usage:
 # Australia - 7 regions, SA borders 5 others (forces chi = 3)
 AUSTRALIA = {
     'WA':  ['NT', 'SA'],
-    'NT':  ['WA', 'SA', 'Q'],
-    'Q':   ['NT', 'SA', 'NSW'],
-    'NSW': ['Q', 'SA', 'V'],
-    'V':   ['NSW', 'SA'],
-    'SA':  ['WA', 'NT', 'Q', 'NSW', 'V'],
-    'T':   [], # Tasmania - isolated, no neighbors
+    'NT':  ['WA', 'SA', 'QLD'],
+    'QLD': ['NT', 'SA', 'NSW'],
+    'NSW': ['QLD', 'SA', 'VIC'],
+    'VIC':   ['NSW', 'SA'],
+    'SA':  ['WA', 'NT', 'QLD', 'NSW', 'VIC'],
+    'TAS':   [], # Tasmania - isolated, no neighbors
 }
 
 # USA - 50 states (chi = 4 per four-color theorem)
@@ -83,3 +84,42 @@ def validate_adjacency(adj: dict) -> None:
         for n in neighbors:
             assert n in adj, f"unknown region: '{n}'"
             assert region in adj[n], f"asymmetric edge: {region} -> {n}"
+
+# Approximate geographic positions (normalised 0–1) for graph drawing
+AUSTRALIA_POS = {
+    'WA':  (0.18, 0.50), 'NT':  (0.42, 0.72), 'SA':  (0.48, 0.43),
+    'QLD': (0.68, 0.68), 'NSW': (0.70, 0.38), 'VIC': (0.65, 0.22),
+    'TAS': (0.65, 0.07),
+}
+
+USA_POS = {
+    'WA': (0.09,0.88), 'OR': (0.09,0.78), 'CA': (0.07,0.60),
+    'ID': (0.19,0.82), 'NV': (0.15,0.66), 'AZ': (0.21,0.50),
+    'MT': (0.30,0.90), 'WY': (0.30,0.79), 'UT': (0.23,0.68),
+    'CO': (0.31,0.64), 'NM': (0.27,0.52),
+    'ND': (0.44,0.91), 'SD': (0.44,0.83), 'NE': (0.44,0.74),
+    'KS': (0.44,0.65), 'OK': (0.44,0.56), 'TX': (0.39,0.43),
+    'MN': (0.55,0.91), 'IA': (0.56,0.79), 'MO': (0.56,0.69),
+    'AR': (0.56,0.58), 'LA': (0.55,0.47),
+    'WI': (0.63,0.87), 'IL': (0.63,0.74), 'KY': (0.66,0.63),
+    'TN': (0.65,0.56), 'MS': (0.62,0.49), 'AL': (0.63,0.43),
+    'MI': (0.70,0.84), 'IN': (0.68,0.73), 'OH': (0.74,0.73),
+    'WV': (0.77,0.66), 'VA': (0.80,0.64), 'NC': (0.82,0.57),
+    'SC': (0.82,0.50), 'GA': (0.74,0.47), 'FL': (0.74,0.36),
+    'PA': (0.80,0.74), 'NY': (0.84,0.81), 'MD': (0.83,0.68),
+    'DE': (0.85,0.71), 'NJ': (0.86,0.74), 'CT': (0.88,0.78),
+    'RI': (0.90,0.79), 'MA': (0.88,0.83), 'VT': (0.87,0.87),
+    'NH': (0.88,0.89), 'ME': (0.91,0.93),
+
+    'AK': (0.05,0.12), # Alaska - isolated, no contiguous neighbors
+    'HI': (0.20,0.08), # Hawaii - isolated, no contiguous neighbors
+}
+
+COLOR_HEX = {
+    'Red':    '#E74C3C', 'Green':  '#27AE60',
+    'Blue':   '#2980B9', 'Yellow': '#F1C40F',
+    'Orange': '#E67E22', 'Purple': '#8E44AD',
+    'Gray':   '#95A5A6',
+}
+COLORS_3 = ['Red', 'Green', 'Blue']
+COLORS_4 = ['Red', 'Green', 'Blue', 'Yellow']
