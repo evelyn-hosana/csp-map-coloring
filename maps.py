@@ -6,21 +6,19 @@ Tasmania, Alaska, and Hawaii are modeled as isolated nodes
 because they have no land-border neighbors in this representation.
 
 usage:
-    from maps import AUSTRALIA, USA, validate_adjacency
-    validate_adjacency(AUSTRALIA)
-    validate_adjacency(USA)
+    from maps import AUSTRALIA, USA
 """
 
 # Lecture 6a - Slide 4 (map coloring as CSP example)
 # Australia - 7 regions, SA borders 5 others (forces chi = 3)
 AUSTRALIA = {
     'WA':  ['NT', 'SA'],
-    'NT':  ['WA', 'SA', 'QLD'],
-    'QLD': ['NT', 'SA', 'NSW'],
-    'NSW': ['QLD', 'SA', 'VIC'],
-    'VIC':   ['NSW', 'SA'],
-    'SA':  ['WA', 'NT', 'QLD', 'NSW', 'VIC'],
-    'TAS':   [], # Tasmania - isolated, no neighbors
+    'NT':  ['WA', 'SA', 'Q'],
+    'Q':   ['NT', 'SA', 'NSW'],
+    'NSW': ['Q', 'SA', 'V'],
+    'V':   ['NSW', 'SA'],
+    'SA':  ['WA', 'NT', 'Q', 'NSW', 'V'],
+    'T':   [], # Tasmania - isolated, no neighbors
 }
 
 # USA - 50 states (chi = 4 per four-color theorem)
@@ -78,18 +76,11 @@ USA = {
     'WY': ['MT', 'ID', 'UT', 'CO', 'NE', 'SD'],
 }
 
-# asserts adjacency dict is symmetric: raises AssertionError if any edge A->B is missing its reverse B->A
-def validate_adjacency(adj: dict) -> None:
-    for region, neighbors in adj.items():
-        for n in neighbors:
-            assert n in adj, f"unknown region: '{n}'"
-            assert region in adj[n], f"asymmetric edge: {region} -> {n}"
-
 # Approximate geographic positions (normalised 0–1) for graph drawing
 AUSTRALIA_POS = {
     'WA':  (0.18, 0.50), 'NT':  (0.42, 0.72), 'SA':  (0.48, 0.43),
-    'QLD': (0.68, 0.68), 'NSW': (0.70, 0.38), 'VIC': (0.65, 0.22),
-    'TAS': (0.65, 0.07),
+    'Q':   (0.68, 0.68), 'NSW': (0.70, 0.38), 'V':   (0.65, 0.22),
+    'T':   (0.65, 0.07),
 }
 
 USA_POS = {
@@ -114,12 +105,3 @@ USA_POS = {
     'AK': (0.05,0.12), # Alaska - isolated, no contiguous neighbors
     'HI': (0.20,0.08), # Hawaii - isolated, no contiguous neighbors
 }
-
-COLOR_HEX = {
-    'Red':    '#E74C3C', 'Green':  '#27AE60',
-    'Blue':   '#2980B9', 'Yellow': '#F1C40F',
-    'Orange': '#E67E22', 'Purple': '#8E44AD',
-    'Gray':   '#95A5A6',
-}
-COLORS_3 = ['Red', 'Green', 'Blue']
-COLORS_4 = ['Red', 'Green', 'Blue', 'Yellow']

@@ -1,13 +1,12 @@
 """
-csp.py - CSP class for map coloring: central data structure used by all 6 algorithm variants.
+csp.py - CSP class for map coloring: central data structure used by all 6 algorithm variants
 
-tracks variables, domains, adjacency, and backtrack counter.
+tracks variables, domains, adjacency, and backtrack counter
 """
 
 # Lecture 6a - Slide 3
 class MapColoringCSP:
-    """Encapsulates the CSP for map coloring, including variables, domains, adjacency, and backtrack counter."""
-
+    """Encapsulates the CSP for map coloring, including variables, domains, adjacency, and backtrack counter"""
     def __init__(self, adjacency: dict, colors: list):
         self.adjacency = adjacency
         self.colors = colors[:]
@@ -29,10 +28,6 @@ class MapColoringCSP:
                 return False
         return True
 
-    def get_unassigned(self, assignment: dict) -> list:
-        # Returns a list of unassigned variables.
-        return [v for v in self.variables if v not in assignment]
-    
     def get_domains(self) -> dict:
         # Returns a copy of the current domains for all variables.
         return {v: self.colors[:] for v in self.variables}

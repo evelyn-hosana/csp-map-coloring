@@ -16,7 +16,7 @@ usage:
 """
 import argparse
 import random
-from maps import AUSTRALIA, USA, validate_adjacency
+from maps import AUSTRALIA, USA
 
 def parse_args():
     parser = argparse.ArgumentParser(description="CSP map coloring")
@@ -68,10 +68,6 @@ def main():
 
     # seed random for reproducibility; skip if seed=0
     if args.seed != 0: random.seed(args.seed)
-
-    # validate adjacency symmetry
-    validate_adjacency(AUSTRALIA)
-    validate_adjacency(USA)
 
     print("Hello, this will be used for CSP map coloring!")
 

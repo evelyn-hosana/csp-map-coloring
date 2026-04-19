@@ -1,2 +1,8 @@
 # lecture slides and project rubric for referencing
 /project-details
+
+# cache files
+/__pycache__
+
+# testing for assurance
+/test-files
