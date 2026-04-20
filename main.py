@@ -16,6 +16,7 @@ usage:
 """
 import argparse
 import os
+import sys
 import random
 from maps import AUSTRALIA, USA, AUSTRALIA_POS, USA_POS
 from chromatic import compute_chromatic_number
@@ -134,7 +135,8 @@ def main():
 
     output_path = os.path.join(OUTPUT_DIR, _output_filename(args))
     write_results_md(all_results, output_path)
-    print(f"\nSaving results to {OUTPUT_DIR}")
+    print(f"\nSaved results to {output_path}")
+    os._exit(0)
 
 if __name__ == '__main__':
     main()
