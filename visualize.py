@@ -16,12 +16,13 @@ _COLOR_MAP = {
 }
 BG = '#1e1e2e'
 
-def draw_colored_map(adjacency, coloring, title, output_dir='.', pos=None):
+def draw_colored_map(adjacency, coloring, title, output_name=None, output_dir='.', pos=None):
     """Draw map as colored graph and save to {output_dir}/{title}.png
 
     adjacency: region -> [neighbor, ...]
     coloring: region -> color string (e.g. 'C1')
     title: filename stem and plot title
+    output_name: custom filename for the output image
     output_dir: directory to save PNG
     pos: region -> (x, y) for geographic layout
     """
@@ -39,13 +40,14 @@ def draw_colored_map(adjacency, coloring, title, output_dir='.', pos=None):
 
     fig, ax = plt.subplots(figsize=(20, 12), facecolor=BG)
     ax.set_facecolor(BG)
-    ax.set_title(title, fontsize=14, fontweight='bold', color='white', pad=14)
+    ax.set_title(title, fontsize=22, fontweight='bold', color='white', pad=18)
 
     nx.draw_networkx_edges(G, pos, ax=ax, edge_color='#444466', width=1.5)
     nx.draw_networkx_nodes(G, pos, ax=ax, node_color=node_colors, node_size=1600, edgecolors='white', linewidths=1.2)
     nx.draw_networkx_labels(G, pos, ax=ax, font_size=8, font_weight='bold', font_color='white')
 
     ax.axis('off')
-    filepath = os.path.join(output_dir, f'{title}.png')
+    filename = output_name if output_name is not None else title
+    filepath = os.path.join(output_dir, f'{filename}.png')
     plt.savefig(filepath, dpi=150, bbox_inches='tight', facecolor=BG)
     plt.close()

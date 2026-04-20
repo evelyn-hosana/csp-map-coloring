@@ -24,7 +24,6 @@ from experiment import run_experiment, write_results_md, NUM_TRIALS
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), 'output')
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description="CSP map coloring")
     parser.add_argument(
@@ -119,7 +118,11 @@ def main():
         if args.visualize and solution:
             try:
                 from visualize import draw_colored_map
-                draw_colored_map(adjacency, solution, map_name, output_dir=OUTPUT_DIR, pos=pos)
+                if map_name == "USA":
+                    title = f"USA (50 States) Map Coloring Solution |  χ(G) = {k}"
+                else:
+                    title = f"{map_name} Map Coloring Solution |  χ(G) = {k}"    
+                draw_colored_map(adjacency, solution, title, output_name=map_name,output_dir=OUTPUT_DIR, pos=pos)
                 vis_path = os.path.join(OUTPUT_DIR, f'{map_name}.png')
                 print(f"[{map_name}] Visualization saved at {vis_path}")
             except Exception as e:
