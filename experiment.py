@@ -69,6 +69,7 @@ def run_experiment(adjacency, num_colors, map_name, num_trials=NUM_TRIALS, run_n
     }
 
     if run_no_heuristics:
+        print(f"[{map_name}] Running without heuristics - DFS, DFS+FC, DFS+FC+Singleton...")
         no_h = {name: {'backtracks': [], 'times': []} for name, _ in _NO_H_SOLVERS}
         for t in range(num_trials):
             order = variables[:]
@@ -83,6 +84,7 @@ def run_experiment(adjacency, num_colors, map_name, num_trials=NUM_TRIALS, run_n
         results['no_heuristics'] = no_h
 
     if run_heuristics:
+        print(f"[{map_name}] Running with heuristics - DFS+H, DFS+FC+H, DFS+FC+Singleton+H...")
         h = {name: {'backtracks': [], 'times': []} for name, _ in _H_SOLVERS}
         for t in range(num_trials):
             order = variables[:]
