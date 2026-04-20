@@ -4,6 +4,8 @@ visualize.py - graph visualization, called from main.py when --visualize is set
 requires: pip install networkx matplotlib
 """
 import os
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 # softer palette - easier on the eyes against dark background
 _COLOR_MAP = {
@@ -45,6 +47,25 @@ def draw_colored_map(adjacency, coloring, title, output_name=None, output_dir='.
     nx.draw_networkx_edges(G, pos, ax=ax, edge_color='#444466', width=1.5)
     nx.draw_networkx_nodes(G, pos, ax=ax, node_color=node_colors, node_size=1600, edgecolors='white', linewidths=1.2)
     nx.draw_networkx_labels(G, pos, ax=ax, font_size=8, font_weight='bold', font_color='white')
+
+    legend_handles = [
+        mpatches.Patch(color='#5b8dd9', label='Blue'),
+        mpatches.Patch(color='#5aab6e', label='Green'),
+        mpatches.Patch(color='#e05c5c', label='Red'),
+        mpatches.Patch(color='#e8c23a', label='Yellow'),
+    ]
+
+    ax.legend(
+        handles=legend_handles,
+        loc='lower center',
+        bbox_to_anchor=(0.5, -0.03),
+        ncol=4,
+        frameon=True,
+        facecolor=BG,
+        edgecolor='white',
+        labelcolor='white',
+        fontsize=10
+    )
 
     ax.axis('off')
     filename = output_name if output_name is not None else title
